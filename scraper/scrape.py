@@ -11,11 +11,9 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 
-# Add the project root to Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-# Now import your modules
 from backend.app import create_app, db
 from backend.models.jobs import Job
 
@@ -34,8 +32,8 @@ class ActuaryListScraper:
             self.driver = webdriver.Chrome(service=service, options=chrome_options)
             self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         except Exception as e:
-            print(f"❌ ChromeDriver initialization failed: {e}")
-            print("🔧 Trying alternative approach...")
+            print(f" ChromeDriver initialization failed: {e}")
+            print(" Trying alternative approach...")
             # Fallback: Use system ChromeDriver
             self.driver = webdriver.Chrome(options=chrome_options)
         
@@ -44,37 +42,34 @@ class ActuaryListScraper:
         jobs = []
         url = "https://www.actuarylist.com"
         
-        print("🌐 Navigating to ActuaryList Jobs...")
+        print(" Navigating to ActuaryList Jobs...")
         
         try:
             self.driver.get(url)
             time.sleep(5)
             
-            # Handle cookie consent if it appears
             self.handle_cookie_consent()
             
             for page in range(max_pages):
-                print(f"📄 Scraping page {page + 1}...")
+                print(f" Scraping page {page + 1}...")
                 
-                # Wait for jobs to load
                 WebDriverWait(self.driver, 15).until(
                     EC.presence_of_element_located((By.TAG_NAME, "body"))
                 )
                 
-                # Extract jobs from current page
+                
                 page_jobs = self.extract_jobs_from_current_page()
                 jobs.extend(page_jobs)
-                print(f"✅ Found {len(page_jobs)} jobs on page {page + 1}")
+                print(f" Found {len(page_jobs)} jobs on page {page + 1}")
                 
-                # Try to go to next page
+                
                 if not self.go_to_next_page():
                     break
                     
                 time.sleep(3)
                 
         except Exception as e:
-            print(f"❌ Error during scraping: {e}")
-            # If scraping fails, return sample data for development
+            print(f" Error during scraping: {e}")
             jobs = self.get_fallback_data()
             
         finally:
@@ -103,7 +98,7 @@ class ActuaryListScraper:
                     if cookie_btn.is_displayed():
                         cookie_btn.click()
                         time.sleep(2)
-                        print("✅ Handled cookie consent")
+                        print(" Handled cookie consent")
                         break
                 except:
                     continue
@@ -367,17 +362,17 @@ def save_jobs_to_db(jobs):
                     )
                     db.session.add(new_job)
                     jobs_added += 1
-                    print(f"✅ ADDED: {job_data['title']} at {job_data['company']}")
+                    print(f" ADDED: {job_data['title']} at {job_data['company']}")
                 else:
                     duplicates += 1
-                    print(f"⚠️ SKIPPED (duplicate): {job_data['title']}")
+                    print(f" SKIPPED (duplicate): {job_data['title']}")
                     
             except Exception as e:
-                print(f"❌ ERROR saving job: {e}")
+                print(f" ERROR saving job: {e}")
                 continue
         
         db.session.commit()
-        print(f"📊 SUMMARY: Added {jobs_added} new jobs, skipped {duplicates} duplicates")
+        print(f" SUMMARY: Added {jobs_added} new jobs, skipped {duplicates} duplicates")
         return jobs_added
 
 def main():
@@ -399,8 +394,7 @@ def main():
             saved_count = save_jobs_to_db(jobs)
             print(f"\n🎉 FINAL RESULT: {saved_count} new jobs saved to database!")
             
-            # Show some of the saved jobs
-            print(f"\n📋 SAMPLE OF SAVED JOBS:")
+            print(f"\n SAMPLE OF SAVED JOBS:")
             app = create_app()
             with app.app_context():
                 recent_jobs = Job.query.order_by(Job.id.desc()).limit(3).all()
@@ -408,14 +402,14 @@ def main():
                     print(f"   • {job.title} at {job.company} ({job.location})")
                     
         else:
-            print("❌ No jobs were found")
+            print(" No jobs were found")
             
     except Exception as e:
-        print(f"💥 SCRAPING FAILED: {e}")
+        print(f" SCRAPING FAILED: {e}")
         
     finally:
         print("\n" + "=" * 50)
-        print("🏁 SCRAPER FINISHED")
+        print("yeahh SCRAPER FINISHED")
 
 if __name__ == "__main__":
     main()

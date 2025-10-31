@@ -9,19 +9,17 @@ job_bp = Blueprint('jobs', __name__)
 @job_bp.route('/jobs', methods=['GET'])
 def get_jobs():
     try:
-        # Filtering parameters
+        ##################### Filtering jobs ###################
         job_type = request.args.get('job_type')
         location = request.args.get('location')
         tag = request.args.get('tag')
         search = request.args.get('search')
         
-        # Sorting parameters
         sort = request.args.get('sort', 'posting_date_desc')
         
-        # Base query
         query = Job.query
         
-        # Apply filters
+        # ########## Apply filters ####################
         if job_type and job_type != 'All':
             query = query.filter(Job.job_type == job_type)
         
@@ -39,7 +37,6 @@ def get_jobs():
                 )
             )
         
-        # Apply sorting
         if sort == 'posting_date_desc':
             query = query.order_by(Job.posting_date.desc())
         elif sort == 'posting_date_asc':
@@ -56,13 +53,11 @@ def create_job():
     try:
         data = request.get_json()
         
-        # Validation
         required_fields = ['title', 'company', 'location']
         for field in required_fields:
             if not data.get(field):
                 return jsonify({'error': f'{field} is required'}), 400
         
-        # Create new job
         new_job = Job(
             title=data['title'],
             company=data['company'],
@@ -102,7 +97,6 @@ def update_job(job_id):
         
         data = request.get_json()
         
-        # Update fields
         if 'title' in data:
             job.title = data['title']
         if 'company' in data:
