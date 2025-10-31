@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+instance/
+.env
+jobs.db
+node_modules/

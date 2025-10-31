@@ -1,0 +1,16 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+instance/
+.env
+jobs.db
+
+# Node
+frontend/node_modules/
+dist/
+build/
+
+# System
+.DS_Store
+venv
