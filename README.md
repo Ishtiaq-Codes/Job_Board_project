@@ -4,7 +4,8 @@
 
 This is a complete full-stack job listing web application built for Bitbash's technical assessment. The application displays actuarial job postings with advanced filtering, sorting, and management capabilities, integrating data scraped from the Actuary List website.
 
-
+**Video Recording link (Explaning Architecture and code of Web App )**
+https://drive.google.com/file/d/13PT0PzmexqlIqtSQc4cFznmV21Qpg-ow/view?usp=sharing)
 
 ---
 
