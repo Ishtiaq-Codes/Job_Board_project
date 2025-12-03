@@ -1,6 +1,24 @@
+# Python
 __pycache__/
-*.pyc
-instance/
+*.py[cod]
+
+# Virtualenv
+venv/
+env/
+.venv/
+
+# Django / Backend
+backend/db.sqlite3
+backend/*.log
+
+# Environment variables
 .env
-jobs.db
-node_modules/
+
+# Node / Frontend
+fronted/node_modules/
+fronted/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
