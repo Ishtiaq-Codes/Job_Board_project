@@ -372,5 +372,5 @@ This project was developed as part of a technical assessment for Bitbash. All co
 
 ---
 
-*Last Updated: [31-10-2025]*  
+*Last Updated: [7-12-2025]*  
 *Built with ❤️ for Bitbash Technical Assessment*
